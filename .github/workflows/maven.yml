@@ -35,3 +35,12 @@ jobs:
       with:
         service-id: srv-crtssqd2ng1s73cf52j0
         api-key: rnd_bDYaHh23cejVhC33bOAi8QX4o7A8
+
+    - name: EC2 Deploy Action
+      run: |
+           echo "${{secrets.KEY_EC2}}" > private_key && chmod 400 private_key
+           ssh -o StrictHostKeyChecking=no -i "private_key" ubuntu@ec2-52-207-221-11.compute-1.amazonaws.com "
+             cd /home/ubuntu/produtoExemplo &&
+             git pull &&
+             mvn clean package -DskipTests &&
+             ./executar.sh "
